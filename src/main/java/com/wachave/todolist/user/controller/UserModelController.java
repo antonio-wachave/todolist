@@ -27,8 +27,10 @@ public class UserModelController {
         UserModel user = this.userModelService.findByUsername(userModel.getUsername());
 
         if(user != null){
+
             System.out.print(" usuario ja existe! ");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario ja existe!") ;
+
         }
 
         UserModel createdUser = this.userModelRepository.save(userModel);

@@ -29,4 +29,12 @@ public class TaskModelServiceImpl implements TaskModelService{
 
         return tasks;
     }
+
+    @Override
+    public TaskModel update(TaskModel taskModel) {
+
+        TaskModel task = this.taskModelRepository.save(taskModel);
+
+        return task;
+    }
 }

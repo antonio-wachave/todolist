@@ -10,4 +10,6 @@ public interface TaskModelService {
     TaskModel create(TaskModel taskModel);
 
     List<TaskModel> findByIdUser(UUID idUser);
+
+    TaskModel update(TaskModel taskModel);
 }

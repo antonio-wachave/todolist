@@ -17,24 +17,19 @@ public class TaskModelServiceImpl implements TaskModelService{
     @Override
     public TaskModel create(TaskModel taskModel) {
 
-       TaskModel tasks = this.taskModelRepository.save(taskModel);
-
-        return tasks;
+       return this.taskModelRepository.save(taskModel);
     }
 
     @Override
     public List<TaskModel> findByIdUser(UUID idUser) {
 
-        List<TaskModel> tasks = this.taskModelRepository.findByIdUser((UUID)idUser);
+        return this.taskModelRepository.findByIdUser((UUID)idUser);
 
-        return tasks;
     }
 
     @Override
     public TaskModel update(TaskModel taskModel) {
 
-        TaskModel task = this.taskModelRepository.save(taskModel);
-
-        return task;
+        return this.taskModelRepository.save(taskModel);
     }
 }

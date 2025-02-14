@@ -1,8 +1,10 @@
 package com.wachave.todolist.task.controller;
 
 import com.wachave.todolist.task.entity.TaskModel;
+import com.wachave.todolist.task.repository.TaskModelRepository;
 import com.wachave.todolist.task.service.TaskModelService;
 import com.wachave.todolist.user.entity.UserModel;
+import com.wachave.todolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,9 @@ public class TaskModelController {
 
     @Autowired
     private TaskModelService taskModelService;
+
+    @Autowired
+    private TaskModelRepository taskModelRepository;
 
     @PostMapping("/")
     public ResponseEntity create(@RequestBody TaskModel taskModel, HttpServletRequest request){
@@ -55,12 +60,10 @@ public class TaskModelController {
     @PutMapping("/{id}")
     public TaskModel update(@RequestBody TaskModel taskModel, @PathVariable UUID id, HttpServletRequest request){
 
-        var idUser = request.getAttribute("idUser");
+        var task = this.taskModelRepository.findById(id).orElse(null);
 
-        taskModel.setIdUser((UUID)idUser);
+        Utils.copyNonNullProperties(taskModel, task);
 
-        taskModel.setId(id);
-
-        return this.taskModelService.update(taskModel);
+        return this.taskModelService.update(task);
     }
 }

@@ -42,6 +42,8 @@ public class TaskModel {
         this.priority = priority;
         this.idUser = idUser;
         this.createdAt = createdAt;
+
+
     }
 
     public UUID getIdUser() {
@@ -64,9 +66,12 @@ public class TaskModel {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setTitle(String title) throws Exception {
+        if(title.length() > 50) {
+            throw new Exception(" O campo title deve ter 50 caracteres");
+        }
+             this.title = title;
+        }
 
     public LocalDateTime getStartAt() {
         return startAt;

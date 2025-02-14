@@ -32,4 +32,10 @@ public class TaskModelServiceImpl implements TaskModelService{
 
         return this.taskModelRepository.save(taskModel);
     }
+
+    @Override
+    public void remove(TaskModel taskModel) {
+
+        this.taskModelRepository.delete(taskModel);
+    }
 }

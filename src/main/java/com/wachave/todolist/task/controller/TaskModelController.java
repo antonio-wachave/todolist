@@ -3,7 +3,6 @@ package com.wachave.todolist.task.controller;
 import com.wachave.todolist.task.entity.TaskModel;
 import com.wachave.todolist.task.repository.TaskModelRepository;
 import com.wachave.todolist.task.service.TaskModelService;
-import com.wachave.todolist.user.entity.UserModel;
 import com.wachave.todolist.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +57,38 @@ public class TaskModelController {
     }
 
     @PutMapping("/{id}")
-    public TaskModel update(@RequestBody TaskModel taskModel, @PathVariable UUID id, HttpServletRequest request){
+    public ResponseEntity update(@RequestBody TaskModel taskModel, @PathVariable UUID id, HttpServletRequest request){
 
-        var task = this.taskModelRepository.findById(id).orElse(null);
+        TaskModel task = this.taskModelRepository.findById(id).orElse(null);
+
+        if(task == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(" Tarefa nao encontrada! ");
+        }
+
+        var idUser = request.getAttribute("idUser");
+
+        if(!task.getIdUser().equals(idUser)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario nao tem permissao de alterar essa tarefa!");
+        }
 
         Utils.copyNonNullProperties(taskModel, task);
 
-        return this.taskModelService.update(task);
+        TaskModel taskUpdated = this.taskModelService.update(task);
+
+        return ResponseEntity.ok().body(this.taskModelService.update(taskUpdated));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable UUID id, TaskModel taskModel){
+
+        TaskModel task = this.taskModelRepository.findById(id).orElse(null);
+
+        if (task == null){
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tarefa nao encontrada!");
+        }
+
+        this.taskModelService.remove(taskModel);
+
+        return ResponseEntity.ok().body(" Tarefa removida com sucesso!");
     }
 }

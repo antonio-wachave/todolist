@@ -12,4 +12,6 @@ public interface TaskModelService {
     List<TaskModel> findByIdUser(UUID idUser);
 
     TaskModel update(TaskModel taskModel);
+
+    void remove(TaskModel taskModel);
 }

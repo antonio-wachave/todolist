@@ -28,17 +28,28 @@ public class TaskModel {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+
     public TaskModel(){
 
     }
 
-    public TaskModel(String description, String title, LocalDateTime startAt, LocalDateTime endAt, String priority, LocalDateTime createdAt) {
+    public TaskModel(UUID id, String description, String title, LocalDateTime startAt, LocalDateTime endAt, String priority, UUID idUser, LocalDateTime createdAt) {
+        this.id = id;
         this.description = description;
         this.title = title;
         this.startAt = startAt;
         this.endAt = endAt;
         this.priority = priority;
+        this.idUser = idUser;
         this.createdAt = createdAt;
+    }
+
+    public UUID getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(UUID idUser) {
+        this.idUser = idUser;
     }
 
     public String getDescription() {

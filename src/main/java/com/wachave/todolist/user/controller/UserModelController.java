@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/users")
 public class UserModelController {
@@ -32,7 +34,7 @@ public class UserModelController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario ja existe!") ;
         }
 
-        var passwordHashred = BCrypt.withDefaults().hashToString(12,userModel.getPassword().toCharArray());
+        String passwordHashred = BCrypt.withDefaults().hashToString(12,userModel.getPassword().toCharArray());
 
         userModel.setPassword(passwordHashred);
 

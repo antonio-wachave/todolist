@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("/tasks")
@@ -79,12 +80,18 @@ public class TaskModelController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable UUID id, TaskModel taskModel){
+    public ResponseEntity delete(@PathVariable UUID id, TaskModel taskModel, HttpServletRequest request){
 
         TaskModel task = this.taskModelRepository.findById(id).orElse(null);
 
-        if (task == null){
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tarefa nao encontrada!");
+        if(task == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(" Tarefa nao encontrada! ");
+        }
+
+        var idUser = request.getAttribute("idUser");
+
+        if(!task.getIdUser().equals(idUser)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuario nao tem permissao de remover essa tarefa!");
         }
 
         this.taskModelService.remove(taskModel);
